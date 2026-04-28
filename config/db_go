@@ -1,0 +1,12 @@
+package config
+
+import (
+	"database/sql" // para conexiones con sql
+	"fmt"
+	"log" // imprimir y manejar logs
+	"os"  // para leer variables de entorno
+
+	_ "github.com/lib/pq" // driver postgreSQL
+)
+
+var DB *sql.DB // instancia global de la base de datos
