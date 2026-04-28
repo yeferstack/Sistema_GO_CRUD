@@ -90,3 +90,38 @@ func DeletePermiso(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 200, map[string]string{"message": "Permiso eliminado correctamente"})
 }
+
+// GET BY ID Permiso
+func GetPermisoByID(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	var p models.Permiso
+	err := config.DB.QueryRow(`
+		SELECT id_permiso, nombre, descripcion, activo, fecha_creacion, fecha_modificacion 
+		FROM "Sistema"."Permiso" WHERE id_permiso=$1`, id).
+		Scan(&p.ID_Permiso, &p.Nombre, &p.Descripcion, &p.Activo, &p.FechaCreacion, &p.FechaModificacion)
+	if err != nil {
+		respondJSON(w, 404, map[string]string{"error": "Permiso no encontrado"})
+		return
+	}
+	respondJSON(w, 200, p)
+}
+
+// CREATE Permiso
+func CreatePermiso(w http.ResponseWriter, r *http.Request) {
+	var p models.Permiso
+	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
+		respondJSON(w, 400, map[string]string{"error": "JSON invalido"})
+		return
+	}
+	err := config.DB.QueryRow(`
+		INSERT INTO "Sistema"."Permiso" (nombre, descripcion, activo) 
+		VALUES ($1,$2,$3) RETURNING id_permiso`,
+		p.Nombre, p.Descripcion, p.Activo,
+	).Scan(&p.ID_Permiso)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 201, p)
+}
+
