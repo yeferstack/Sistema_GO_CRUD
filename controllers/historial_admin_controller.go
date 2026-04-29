@@ -79,3 +79,14 @@ func UpdateHistorialAdmin(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 200, map[string]string{"message": "Historial actualizado correctamente"})
 }
+
+// DELETE HistorialAdmin
+func DeleteHistorialAdmin(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	_, err := config.DB.Exec(`DELETE FROM "Sistema"."HistorialAdmin" WHERE id_historial=$1`, id)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"message": "Historial eliminado correctamente"})
+}
