@@ -9,3 +9,22 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// GET ALL NivelAcceso
+func GetAllNivelAcceso(w http.ResponseWriter, r *http.Request) {
+	rows, err := config.DB.Query(`
+		SELECT id_admin, id_nivelacceso, moderador, administrador, activo, fecha_asignacion, fecha_creacion, fecha_modificacion 
+		FROM "Sistema"."Nivel_Acceso"`)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	var list []models.NivelAcceso
+	for rows.Next() {
+		var n models.NivelAcceso
+		rows.Scan(&n.ID_Admin, &n.ID_NivelAcceso, &n.Moderador, &n.Administrador, &n.Activo, &n.FechaAsignacion, &n.FechaCreacion, &n.FechaModificacion)
+		list = append(list, n)
+	}
+	respondJSON(w, 200, list)
+}
