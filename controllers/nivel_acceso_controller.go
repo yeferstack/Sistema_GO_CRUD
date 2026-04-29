@@ -43,3 +43,22 @@ func GetNivelAccesoByID(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 200, n)
 }
+
+// CREATE NivelAcceso
+func CreateNivelAcceso(w http.ResponseWriter, r *http.Request) {
+	var n models.NivelAcceso
+	if err := json.NewDecoder(r.Body).Decode(&n); err != nil {
+		respondJSON(w, 400, map[string]string{"error": "JSON invalido"})
+		return
+	}
+	err := config.DB.QueryRow(`
+		INSERT INTO "Sistema"."Nivel_Acceso" (id_nivelacceso, moderador, administrador, activo) 
+		VALUES ($1,$2,$3,$4) RETURNING id_admin`,
+		n.ID_NivelAcceso, n.Moderador, n.Administrador, n.Activo,
+	).Scan(&n.ID_Admin)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 201, n)
+}
