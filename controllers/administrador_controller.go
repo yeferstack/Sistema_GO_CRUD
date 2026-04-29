@@ -62,3 +62,31 @@ func CreateAdministrador(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 201, a)
 }
+
+// UPDATE Administrador
+func UpdateAdministrador(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	var a models.Administrador
+	json.NewDecoder(r.Body).Decode(&a)
+	_, err := config.DB.Exec(`
+		UPDATE "Sistema"."Administrador" SET id_nivelacceso=$1, activo=$2 
+		WHERE id_admin=$3`,
+		a.ID_NivelAcceso, a.Activo, id,
+	)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"message": "Administrador actualizado correctamente"})
+}
+
+// DELETE Administrador
+func DeleteAdministrador(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	_, err := config.DB.Exec(`DELETE FROM "Sistema"."Administrador" WHERE id_admin=$1`, id)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"message": "Administrador eliminado correctamente"})
+}
