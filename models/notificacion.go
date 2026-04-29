@@ -12,6 +12,6 @@ type Notificacion struct {
 	TipoReferencia    string    `json:"tipo_referencia"`
 	Leido             bool      `json:"leido"`
 	Activo            bool      `json:"activo"`
-	FechaCreacion     time.Time `json:"fecha_creacion"`
-	FechaModificacion time.Time `json:"fecha_modificacion"`
+	FechaCreacion     *time.Time `json:"fecha_creacion"`
+	FechaModificacion *time.Time `json:"fecha_modificacion"`
 }
