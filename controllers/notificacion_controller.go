@@ -79,3 +79,14 @@ func UpdateNotificacion(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 200, map[string]string{"message": "Notificacion actualizada correctamente"})
 }
+
+// DELETE Notificacion
+func DeleteNotificacion(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	_, err := config.DB.Exec(`DELETE FROM "Sistema"."Notificacion" WHERE id_notificacion=$1`, id)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"message": "Notificacion eliminada correctamente"})
+}
