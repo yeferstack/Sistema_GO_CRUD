@@ -26,8 +26,8 @@ git clone https://github.com/yeferstack/Sistema_GO_CRUD.git
 cd Sistema_GO_CRUD
 
 # 3. Cambiar a la rama feature
-git checkout feature/sistema
-git pull origin feature/sistema
+*git checkout feature/sistema
+*git pull origin feature/sistema
 
 # 4. probar funcionalidad en develop
 probar funcionalidad en rama develop
