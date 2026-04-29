@@ -25,11 +25,14 @@ git clone https://github.com/yeferstack/Sistema_GO_CRUD.git
 # 2. Entrar a la carpeta del proyecto
 cd Sistema_GO_CRUD
 
-# 3. Cambiar a la rama develop
-git checkout develop
-git pull origin develop
+# 3. Cambiar a la rama feature
+git checkout feature/sistema
+git pull origin feature/sistema
 
-# 4. Configurar variables de entorno y ejecutar
+# 4. probar funcionalidad en develop
+probar funcionalidad en rama develop
+
+# 5. Configurar variables de entorno y ejecutar
 INSCRIPCION_CRUD_PGHOST=localhost \
 INSCRIPCION_CRUD_PGPORT=5432 \
 INSCRIPCION_CRUD_PGUSER=postgres \
