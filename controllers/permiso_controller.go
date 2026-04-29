@@ -53,9 +53,9 @@ func CreatePermiso(w http.ResponseWriter, r *http.Request) {
 	}
 	err := config.DB.QueryRow(`
 		INSERT INTO "Sistema"."Permiso" (nombre, descripcion, activo) 
-		VALUES ($1,$2,$3) RETURNING id_permiso`,
+		VALUES ($1,$2,$3) RETURNING id_permiso, fecha_creacion, fecha_modificacion`,
 		p.Nombre, p.Descripcion, p.Activo,
-	).Scan(&p.ID_Permiso)
+	).Scan(&p.ID_Permiso, &p.FechaCreacion, &p.FechaModificacion)
 	if err != nil {
 		respondJSON(w, 500, map[string]string{"error": err.Error()})
 		return

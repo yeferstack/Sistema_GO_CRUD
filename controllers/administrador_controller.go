@@ -53,9 +53,9 @@ func CreateAdministrador(w http.ResponseWriter, r *http.Request) {
 	}
 	err := config.DB.QueryRow(`
 		INSERT INTO "Sistema"."Administrador" (id_usuario, id_nivelacceso, activo) 
-		VALUES ($1,$2,$3) RETURNING id_admin`,
+		VALUES ($1,$2,$3) RETURNING id_admin, fecha_asignacion, fecha_creacion, fecha_modificacion`,
 		a.ID_Usuario, a.ID_NivelAcceso, a.Activo,
-	).Scan(&a.ID_Admin)
+	).Scan(&a.ID_Admin, &a.FechaAsignacion, &a.FechaCreacion, &a.FechaModificacion)
 	if err != nil {
 		respondJSON(w, 500, map[string]string{"error": err.Error()})
 		return

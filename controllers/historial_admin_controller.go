@@ -53,9 +53,9 @@ func CreateHistorialAdmin(w http.ResponseWriter, r *http.Request) {
 	}
 	err := config.DB.QueryRow(`
 		INSERT INTO "Sistema"."HistorialAdmin" (id_admin, accion, descripcion, tipo_objeto, id_objeto, activo) 
-		VALUES ($1,$2,$3,$4,$5,$6) RETURNING id_historial`,
+		VALUES ($1,$2,$3,$4,$5,$6) RETURNING id_historial, fecha_accion, fecha_creacion, fecha_modificacion`,
 		h.ID_Admin, h.Accion, h.Descripcion, h.TipoObjeto, h.ID_Objeto, h.Activo,
-	).Scan(&h.ID_Historial)
+	).Scan(&h.ID_Historial, &h.FechaAccion, &h.FechaCreacion, &h.FechaModificacion)
 	if err != nil {
 		respondJSON(w, 500, map[string]string{"error": err.Error()})
 		return

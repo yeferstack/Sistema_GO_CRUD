@@ -53,9 +53,9 @@ func CreateNotificacion(w http.ResponseWriter, r *http.Request) {
 	}
 	err := config.DB.QueryRow(`
 		INSERT INTO "Sistema"."Notificacion" (id_usuario, titulo, mensaje, tipo, id_referencia, tipo_referencia, leido, activo) 
-		VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id_notificacion`,
+		VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id_notificacion, fecha_creacion, fecha_modificacion`,
 		n.ID_Usuario, n.Titulo, n.Mensaje, n.Tipo, n.ID_Referencia, n.TipoReferencia, n.Leido, n.Activo,
-	).Scan(&n.ID_Notificacion)
+	).Scan(&n.ID_Notificacion, &n.FechaCreacion, &n.FechaModificacion)
 	if err != nil {
 		respondJSON(w, 500, map[string]string{"error": err.Error()})
 		return

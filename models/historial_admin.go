@@ -9,8 +9,8 @@ type HistorialAdmin struct {
 	Descripcion       string    `json:"descripcion"`
 	TipoObjeto        string    `json:"tipo_objeto"`
 	ID_Objeto         *int      `json:"id_objeto"`
-	FechaAccion       time.Time `json:"fecha_accion"`
+	FechaAccion       *time.Time `json:"fecha_accion"`
 	Activo            bool      `json:"activo"`
-	FechaCreacion     time.Time `json:"fecha_creacion"`
-	FechaModificacion time.Time `json:"fecha_modificacion"`
+	FechaCreacion     *time.Time `json:"fecha_creacion"`
+	FechaModificacion *time.Time `json:"fecha_modificacion"`
 }
