@@ -62,3 +62,20 @@ func CreateNivelAcceso(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 201, n)
 }
+
+// UPDATE NivelAcceso
+func UpdateNivelAcceso(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	var n models.NivelAcceso
+	json.NewDecoder(r.Body).Decode(&n)
+	_, err := config.DB.Exec(`
+		UPDATE "Sistema"."Nivel_Acceso" SET moderador=$1, administrador=$2, activo=$3 
+		WHERE id_admin=$4`,
+		n.Moderador, n.Administrador, n.Activo, id,
+	)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"message": "Nivel de acceso actualizado correctamente"})
+}
