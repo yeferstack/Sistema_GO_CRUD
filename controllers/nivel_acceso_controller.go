@@ -79,3 +79,14 @@ func UpdateNivelAcceso(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 200, map[string]string{"message": "Nivel de acceso actualizado correctamente"})
 }
+
+// DELETE NivelAcceso
+func DeleteNivelAcceso(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	_, err := config.DB.Exec(`DELETE FROM "Sistema"."Nivel_Acceso" WHERE id_admin=$1`, id)
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"message": "Nivel de acceso eliminado correctamente"})
+}
