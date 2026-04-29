@@ -28,3 +28,18 @@ func GetAllNivelAcceso(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 200, list)
 }
+
+// GET BY ID NivelAcceso
+func GetNivelAccesoByID(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	var n models.NivelAcceso
+	err := config.DB.QueryRow(`
+		SELECT id_admin, id_nivelacceso, moderador, administrador, activo, fecha_asignacion, fecha_creacion, fecha_modificacion 
+		FROM "Sistema"."Nivel_Acceso" WHERE id_admin=$1`, id).
+		Scan(&n.ID_Admin, &n.ID_NivelAcceso, &n.Moderador, &n.Administrador, &n.Activo, &n.FechaAsignacion, &n.FechaCreacion, &n.FechaModificacion)
+	if err != nil {
+		respondJSON(w, 404, map[string]string{"error": "Nivel de acceso no encontrado"})
+		return
+	}
+	respondJSON(w, 200, n)
+}
