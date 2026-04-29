@@ -1,4 +1,4 @@
- package routes
+package routes
 
 import (
 	"Sistema_GO_CRUD/controllers"
